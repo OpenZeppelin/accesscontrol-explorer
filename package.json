@@ -1,0 +1,55 @@
+{
+  "name": "accesscontrol-explorer",
+  "author": "Hadrien Croubois <hadrien.croubois@gmail.com>",
+  "version": "0.1.0",
+  "licence": "MIT",
+  "homepage": ".",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenZeppelin/openzeppelin-labs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OpenZeppelin/openzeppelin-labs.git/issues"
+  },
+  "scripts": {
+    "start": "react-scripts --max_old_space_size=4096 start",
+    "build": "react-scripts --max_old_space_size=4096 build",
+    "test": "react-scripts --max_old_space_size=4096 test",
+    "eject": "react-scripts --max_old_space_size=4096 eject",
+    "deploy": "rsync -avzz --delete build/* hadriencroubois.com:/mnt/sata/http/apps/ace/."
+  },
+  "dependencies": {
+    "@apollo/react-hooks": "^4.0.0",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link-http": "^1.5.17",
+    "bootstrap": "^4.6.0",
+    "ethers": "^5.4.7",
+    "graphql": "^15.5.0",
+    "query-string": "^4.3.4",
+    "react": "^17.0.2",
+    "react-bootstrap": "^2.0.0-beta.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-slide-toggle": "^0.3.5"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
