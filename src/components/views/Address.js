@@ -1,136 +1,99 @@
-import { Container, Table } from 'react-bootstrap';
-import SlideToggle from 'react-slide-toggle';
+import Fetch        from '../utils/FetchPaginated';
+import * as graphql from '../../graphql';
+import * as format  from '../utils/format'
 
-import * as format from '../utils/format';
+Array.prototype.unique = function(op = x => x) {
+    return this.filter((obj, i) => this.findIndex(entry => op(obj) === op(entry)) === i);
+}
 
-const fallback = (process) => (data) => !!data ? process(data) : process.error(data);
-
-const Address = (props) => {
-    const data = {
-        owner:   props.results?.account?.asOwnable?.owner.id,
-        ownerOf: props.results?.account?.ownerOf.map(({ id }) => id),
-        members: Object.fromEntries(
-            props.results?.account?.asAccessControl?.roles
-            .filter(role => role.members.length)
-            .map(role => [
-                role.role.id, role.members.map(member => member.account.id)
-            ]) ?? []
-        ),
-        memberOf: (props.results?.account?.membership || [])
-            .reduce((acc, { accesscontrolrole }) =>
-                Object.assign(acc, { [accesscontrolrole.contract.id]: [].concat(acc[accesscontrolrole.contract.id] || [], accesscontrolrole.role.id) }),
-                {},
-            ),
-    }
-    return <Container>
-        <h1>{ format.address(props.results?.account?.id) }</h1>
-        <ul>
-            { fallback(Owner   )(data.owner   ) }
-            { fallback(Members )(data.members ) }
-            { fallback(OwnerOf )(data.ownerOf ) }
-            { fallback(MemberOf)(data.memberOf) }
-        </ul>
-    </Container>;
+Array.prototype.groupBy = function(key) {
+    return this.reduce(function(rv, x) {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+    }, {});
 };
 
-const Owner = (owner) => <SlideToggle collapsed={false} render={ ({ toggle, setCollapsibleElement }) =>
-    <>
-        <li onClick={toggle} role={ !!owner ? 'button': '' }>
-            Ownable contract (1 owner)
-        </li>
-        <Table bordered hover size='sm' ref={setCollapsibleElement}>
-        <tbody>
-        {
-            <tr>
-                <td>Owner:</td>
-                <td>{ format.address(owner) }</td>
-            </tr>
-        }
-        </tbody>
-        </Table>
-    </>
-}/>;
+const Address = (props) =>
+    <Fetch
+        variables = {{ id: props.params.id?.toLowerCase() }}
+        query     = {graphql.address}
+        merge     = {Address.merge}
+        limit     = {Address.limit}
+        render    = {Address.renderer}
+        {...props}
+    />
 
-const OwnerOf = (ownerOf) => <SlideToggle collapsed={false} render={ ({ toggle, setCollapsibleElement }) =>
-    <>
-        <li onClick={toggle} role={ !!ownerOf.length ? 'button': '' }>
-            Is owner of {ownerOf.length} contracts
-        </li>
-        {
-            !!ownerOf.length &&
-            <Table bordered hover size='sm' ref={setCollapsibleElement}>
-            <tbody>
-            {
-                ownerOf.map((address, i) =>
-                    <tr key={i}>
-                        <td>{ format.address(address) }</td>
-                    </tr>
-                )
-            }</tbody>
-            </Table>
-        }
-    </>
-}/>;
+Address.merge = (prev, data) => ({
+    account: {
+        id:         prev?.account?.id        ?? data.account?.id,
+        asOwnable:  prev?.account?.asOwnable ?? data.account?.asOwnable,
+        ownerOf:    [].concat(prev?.account?.ownerOf,    data.account?.ownerOf   ).filter(Boolean),
+        membership: [].concat(prev?.account?.membership, data.account?.membership).filter(Boolean),
+        asAccessControl: {
+            roles: [].concat(prev?.account?.asAccessControl?.roles, data.account?.asAccessControl?.roles).filter(Boolean),
+        },
+    },
+})
 
-const Members = (members) => <SlideToggle collapsed={false} render={ ({ toggle, setCollapsibleElement }) =>
-    <>
-        <li onClick={toggle} role={ !!Object.keys(members).length ? 'button': '' }>
-        {
-            Object.keys(members).length
-            ? `AccessControl contract (${
-                Object.keys(members).length
-            } roles, ${
-                Object.values(members).flat().filter((k, i, a) => a.indexOf(k) === i).length
-            } members)`
-            : `Not an AccessControl contract`
-        }
-        </li>
-        {
-            !!Object.keys(members).length &&
-            <Table bordered hover size='sm' ref={setCollapsibleElement}>
-            <tbody>
+Address.limit = (data) => Math.max(
+    data?.account?.ownerOf?.length,
+    data?.account?.membership?.length,
+    data?.account?.asAccessControl?.roles?.length,
+)
+
+Address.renderer = (props) => {
+    const id       = props.results?.account?.id;
+    const owner    = props.results?.account?.asOwnable?.owner.id;
+    const roles    = props.results?.account?.asAccessControl?.roles.map(role => role.role.id) ?? [];
+    const ownerOf  = props.results?.account?.ownerOf.map(ownable => ownable.id) ?? [];
+    const memberOf = props.results?.account?.membership.map(membership => ({ contract: membership.accesscontrolrole.contract.id, roleId: membership.accesscontrolrole.role.id })) ?? [];
+    return (
+        <ul>
+            <li>
+                { format.address(id) }
+            </li>
             {
-                Object.entries(members).map(([ roleId, addresses ], i) => addresses.map((address, j) =>
-                    <tr key={`${i}-${j}`}>
-                        { !j && <td rowSpan={addresses.length}>{ format.role(roleId) }</td> }
-                        <td>{ format.address(address) }</td>
-                    </tr>
-                ))
+                owner &&
+                <li>
+                    Contract is Ownable with owner: { format.address(owner) }
+                </li>
             }
-            </tbody>
-            </Table>
-        }
-    </>
-}/>;
-
-const MemberOf = (memberOf) => <SlideToggle collapsed={false} render={ ({ toggle, setCollapsibleElement }) =>
-    <>
-        <li onClick={toggle} role={ !!Object.keys(memberOf).length ? 'button': '' }>
-            Has a role in {Object.keys(memberOf).length} contracts
-        </li>
-        {
-            !!Object.keys(memberOf).length &&
-            <Table bordered hover size='sm' ref={setCollapsibleElement}>
-            <tbody>
             {
-                Object.entries(memberOf).map(([ address, roleIds ], i) => roleIds.map((roleId, j) =>
-                    <tr key={`${i}-${j}`}>
-                        { !j && <td rowSpan={roleIds.length}>{ format.address(address) }</td> }
-                        <td>{ format.role(roleId) }</td>
-                    </tr>
-                ))
+                !!roles.length &&
+                <li>
+                    Contract is AccessControl with { roles.length } roles:
+                    <ul>
+                        { roles.map((roleId, i) => <li key={i}>{ format.role(roleId) }</li>)}
+                    </ul>
+                </li>
             }
-            </tbody>
-            </Table>
-        }
-    </>
-}/>;
-
-
-Owner.error = (data) => <li>Not an Ownable contract</li>;
-OwnerOf.error = (data) => OwnerOf([]);
-Members.error = (data) => MemberOf({});
-MemberOf.error = (data) => MemberOf({});
-
+            {
+                !!ownerOf.length &&
+                <li>
+                    owns {ownerOf.length} contracts:
+                    <ul>
+                        { ownerOf.map((address, i) => <li key={i}>{ format.address(address) }</li>)}
+                    </ul>
+                </li>
+            }
+            {
+                !!memberOf.length &&
+                <li>
+                    member of {memberOf.unique(({ contract }) => contract).length} contracts:
+                    <ul>
+                        {
+                            Object.entries(memberOf.groupBy('contract')).map(([ contract, roles ], i) =>
+                                <li key={i}>
+                                    { format.address(contract) }
+                                    <ul>{ roles.map(({ roleId }, j) => <li key={j}>{ format.role(roleId) }</li>) }</ul>
+                                </li>
+                            )
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    );
+}
 
 export default Address;

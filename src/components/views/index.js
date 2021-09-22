@@ -1,2 +1,2 @@
-export { default as address } from './Address';
-export { default as role    } from './Role';
+export { default as Address } from './Address.js';
+export { default as Role    } from './Role';

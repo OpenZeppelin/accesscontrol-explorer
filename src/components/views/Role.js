@@ -1,47 +1,42 @@
-import { Container, Table } from 'react-bootstrap';
-import SlideToggle from 'react-slide-toggle';
+import Fetch        from '../utils/FetchPaginated';
+import * as graphql from '../../graphql';
+import * as format  from '../utils/format'
 
-import * as format from '../utils/format';
+const Role = (props) =>
+    <Fetch
+        variables = {{ id: props.params.id?.toLowerCase() }}
+        query     = {graphql.role}
+        merge     = {Role.merge}
+        limit     = {Role.limit}
+        render    = {Role.renderer}
+        {...props}
+    />
 
-const fallback = (process) => (data) => !!data ? process(data) : process.error(data);
+Role.merge = (prev, data) => ({
+    role: {
+        id:     prev?.role?.id ?? data?.role?.id,
+        roleOf: [].concat(prev?.role?.roleOf, data?.role?.roleOf).filter(Boolean),
+    },
+})
 
-const Role = (props) => {
-    const data = {
-        roleFor: (props.results?.role?.roleOf || []).reduce((acc, role) => Object.assign(
-                acc,
-                { [role.contract.id]: role.members.map(member => member.account.id)}
-            ), {}),
-    };
+Role.limit = (data) => data.role?.roleOf?.length
 
-    return <Container>
-        <h1>{ format.role(props.results?.role?.id) }</h1>
+Role.renderer = (props) => {
+    const id        = props.results.role?.id;
+    const contracts = props.results.role?.roleOf.map(role => role.contract.id) ?? [];
+    return (
         <ul>
-            { fallback(RoleFor)(data.roleFor) }
+            <li>
+                { format.role(id) }
+            </li>
+            <li>
+                usages: {contracts.length}
+                <ul>
+                    { contracts.map((contract, i) => <li key={i}>{ format.address(contract) }</li>) }
+                </ul>
+            </li>
         </ul>
-    </Container>;
+    );
 }
-
-const RoleFor = (roleFor) => <SlideToggle collapsed={false} render={ ({ toggle, setCollapsibleElement }) =>
-    <>
-        <li onClick={toggle} role={ !!Object.keys(roleFor).length ? 'button': '' }>
-            Used by {Object.keys(roleFor).length} contracts
-        </li>
-        <Table bordered hover size='sm' ref={setCollapsibleElement}>
-        {
-            !!Object.keys(roleFor).length &&
-            <tbody>
-            {
-                Object.entries(roleFor).map(([ contract, members ], i) =>
-                    <tr key={i}>
-                        <td>{ format.address(contract) }</td>
-                        <td>{ members.length } active members</td>
-                    </tr>
-                )
-            }
-            </tbody>
-        }
-        </Table>
-    </>
-}/>;
 
 export default Role;
