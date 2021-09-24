@@ -1,42 +1,51 @@
-import Fetch        from '../utils/FetchPaginated';
 import * as graphql from '../../graphql';
 import * as format  from '../utils/format'
+import Fetch        from '../utils/Fetch';
+
+import { Container, Card, Accordion, Table } from 'react-bootstrap';
 
 const Role = (props) =>
-    <Fetch
-        variables = {{ id: props.params.id?.toLowerCase() }}
-        query     = {graphql.role}
-        merge     = {Role.merge}
-        limit     = {Role.limit}
-        render    = {Role.renderer}
-        {...props}
-    />
-
-Role.merge = (prev, data) => ({
-    role: {
-        id:     prev?.role?.id ?? data?.role?.id,
-        roleOf: [].concat(prev?.role?.roleOf, data?.role?.roleOf).filter(Boolean),
-    },
-})
-
-Role.limit = (data) => data.role?.roleOf?.length
+    <Container>
+    <Fetch variables = {{ role: props.params.role.toLowerCase() }} query = {graphql.role}>
+        <Role.renderer {...props}/>
+    </Fetch>
+    </Container>;
 
 Role.renderer = (props) => {
     const id        = props.results.role?.id;
     const contracts = props.results.role?.roleOf.map(role => role.contract.id) ?? [];
+
     return (
-        <ul>
-            <li>
-                { format.role(id) }
-            </li>
-            <li>
-                usages: {contracts.length}
-                <ul>
-                    { contracts.map((contract, i) => <li key={i}>{ format.address(contract) }</li>) }
-                </ul>
-            </li>
-        </ul>
+        <>
+            <Card bg='light' className='my-3'>
+                <Card.Header className='text-center'>
+                    <h3 className='my-3'><format.Role role={ id }/></h3>
+                </Card.Header>
+            </Card>
+            <Accordion>
+                <Accordion.Item eventKey="0">
+                    <Accordion.Header>
+                        Role is used in { contracts.length } contracts
+                    </Accordion.Header>
+                    <Accordion.Body>
+                        <Table bordered size='sm' className='align-middle text-center my-3'>
+                            <tbody>
+                            {
+                                contracts.map((contract, i) =>
+                                    <tr key={i}>
+                                        <td>
+                                            <format.Address {...props} address={ contract } role={ id }/>
+                                        </td>
+                                    </tr>
+                                )
+                            }
+                            </tbody>
+                        </Table>
+                    </Accordion.Body>
+                </Accordion.Item>
+            </Accordion>
+        </>
     );
-}
+};
 
 export default Role;

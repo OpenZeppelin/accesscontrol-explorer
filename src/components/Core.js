@@ -6,47 +6,27 @@ import { InMemoryCache  } from 'apollo-cache-inmemory';
 import { HttpLink       } from 'apollo-link-http';
 
 import QueryParser from './utils/QueryParser';
-import * as views  from './views';
-
-import 'bootstrap/dist/css/bootstrap.min.css'
+import View        from './views';
 
 const App = (props) =>
     <ul>
-        <li><Link to='/address?id=0x41545f8b9472D758bB669ed8EaEEEcD7a9C4Ec29'>Example address</Link></li>
-        <li><Link to='/role?id=0x8619cecd8b9e095ab43867f5b69d492180450fe862e6b50bfbfb24b75dd84c8a'>Example roleid</Link></li>
+        <li><Link to='/view?address=0x41545f8b9472D758bB669ed8EaEEEcD7a9C4Ec29'>Example address</Link></li>
+        <li><Link to='/view?role=0x8619cecd8b9e095ab43867f5b69d492180450fe862e6b50bfbfb24b75dd84c8a'>Example roleid</Link></li>
     </ul>;
 
-const URI = 'https://api.thegraph.com/subgraphs/name/amxx/access-control';
-
 const Core = (props) => {
-    const uri    = URI;
-    const cache  = new InMemoryCache(
-    // {
-    //     typePolicies: {
-    //         Query: {
-    //             fields: {
-    //                 feed: {
-    //                     keyArgs: false,
-    //                     merge(existing = [], incoming) { return [...existing, ...incoming]; },
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-    );
-    const link   = new HttpLink({ uri });
-    const client = new ApolloClient({ cache, link });
+    const uri      = props.endpoint;
+    const cache    = new InMemoryCache();
+    const link     = new HttpLink({ uri });
+    const client   = new ApolloClient({ cache, link });
 
     return (
-        <>
         <ApolloProvider client={client}>
         <Router>
-            <Route exact path='/'        render={ (routing) => <QueryParser routing={routing}><App           {...props}/></QueryParser> }/>
-            <Route exact path='/address' render={ (routing) => <QueryParser routing={routing}><views.Address {...props}/></QueryParser> }/>
-            <Route exact path='/role'    render={ (routing) => <QueryParser routing={routing}><views.Role    {...props}/></QueryParser> }/>
+            <Route exact path='/'     render={ (routing) => <QueryParser routing={routing}><App  {...props}/></QueryParser>}/>
+            <Route exact path='/view' render={ (routing) => <QueryParser routing={routing}><View {...props}/></QueryParser>}/>
         </Router>
         </ApolloProvider>
-        </>
     );
 }
 
