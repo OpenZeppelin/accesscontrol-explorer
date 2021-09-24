@@ -24,6 +24,7 @@
     "apollo-client": "^2.6.10",
     "apollo-link-http": "^1.5.17",
     "bootstrap": "^4.6.0",
+    "ethereum-react-components": "^1.14.0",
     "ethers": "^5.4.7",
     "graphql": "^15.5.0",
     "lodash": "^4.17.21",

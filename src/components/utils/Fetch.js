@@ -10,7 +10,7 @@ function usePrevious(value) {
     return ref.current;
 }
 
-const Fetch = (props) => {
+export default (props) => {
     const [ loading, setLoading ] = React.useState(true);
     const [ limit               ] = React.useState(1000);
     const [ offset,  setOffset  ] = React.useState(0);
@@ -52,6 +52,4 @@ const Fetch = (props) => {
          : loading ? (props.loading ? props.loading({ ...props, loading, results, error }) : `Loading`)
          : results ? React.Children.map(props.children, child => React.isValidElement(child) ? React.cloneElement(child, { ...props, results }) : child)
          : null;
-}
-
-export default Fetch;
+};

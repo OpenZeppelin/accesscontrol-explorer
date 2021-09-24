@@ -1,7 +1,7 @@
 import * as React   from 'react';
 import queryString  from 'query-string';
 
-const QueryParser = (props) => {
+export default (props) => {
     const [ params, setParams ] = React.useState({});
 
     React.useEffect(() => {
@@ -12,6 +12,4 @@ const QueryParser = (props) => {
           ? React.cloneElement(child, { ...props, params })
        : child
     );
-}
-
-export default QueryParser;
+};
