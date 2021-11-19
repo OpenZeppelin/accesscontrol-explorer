@@ -14,7 +14,7 @@
 <title>Access Control Explorer - Address {address}</title>
 </svelte:head>
 
-<h1 class="font-bold">{address}</h1>
+<h1 class="font-bold mb-4">{address}</h1>
 
 <div class="grid grid-cols-2 gap-2">
   <div class="border-2 border-gray-100 bg-gray-50 p-2 rounded">

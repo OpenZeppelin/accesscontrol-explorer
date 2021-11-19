@@ -4,10 +4,11 @@
   import LoadMore from '$lib/LoadMore.svelte';
   import Address from '$lib/Address.svelte';
   import Role from '$lib/Role.svelte';
+  import TreeList, { TreeNode } from './TreeList.svelte';
 
   export let address: string;
 
-  const account = paginatedStore(gql`
+  const queryResult = paginatedStore(gql`
     query ($address: String, $limit: Int, $offset: Int) {
       account(id: $address) {
         id
@@ -26,67 +27,33 @@
     limit: 100,
   });
 
-  $: membership = Object.entries<string[]>(
-    $account.data?.account.membership.reduce((map, entry) => {
+  let tree: TreeNode[] = [];
+
+  $: {
+    const map: Record<string, string[]> = {};
+
+    for (const entry of $queryResult.data?.account.membership ?? []) {
       const { contract, role } = entry.accesscontrolrole;
       (map[contract.id] ??= []).push(role.id);
-      return map;
-    }, {})
-    ?? {}
-  );
+    }
 
-  query(account);
+    tree = Object.entries(map).map(([a, roles]) => ({
+      component: Address,
+      props: { a },
+      children: roles.map(r => ({
+        component: Role,
+        props: { r, address: a },
+      })),
+    }));
+  };
+
+  query(queryResult);
 </script>
 
 <section>
 <h1 class="font-bold">Member of</h1>
 
-{#if membership}
-  <ul>
-    {#each membership as [address, roles]}
-      <li><Address a={address} /></li>
-      <ul>
-        {#each roles as role}
-          <li class="role-list-item"><Role r={role} {address} /></li>
-          <li class="role-list-item"><Role r={role} {address} /></li>
-        {/each}
-      </ul>
-    {/each}
-  </ul>
-{/if}
+<TreeList values={tree} />
 
-<LoadMore store={account} />
+<LoadMore store={queryResult} />
 </section>
-
-<style>
-  .role-list-item {
-    --w: 1.5em;
-    position: relative;
-    padding-left: var(--w);
-    overflow-y: hidden
-  }
-
-  .role-list-item::before,
-  .role-list-item::after {
-    content: '';
-    display: block;
-    width: calc(.4 * var(--w));
-    position: absolute;
-    left: calc(.4 * var(--w));
-  }
-
-  .role-list-item::before {
-    border-left: 1px solid currentColor;
-    top: 0;
-    bottom: 0;
-  }
-
-  .role-list-item:last-child::before {
-    bottom: 50%;
-  }
-
-  .role-list-item::after {
-    border-bottom: 1px solid currentColor;
-    bottom: 50%;
-  }
-</style>

@@ -3,10 +3,11 @@
   import { paginatedStore } from '$lib/paginated-store';
   import LoadMore from '$lib/LoadMore.svelte';
   import Role from '$lib/Role.svelte';
+  import TreeList, { TreeNode } from './TreeList.svelte';
 
   export let address: string;
 
-  const account = paginatedStore(gql`
+  const queryResult = paginatedStore(gql`
     query ($address: String, $limit: Int, $offset: Int) {
       account(id: $address) {
         id
@@ -14,8 +15,10 @@
           id
           roles(first: $limit, skip: $offset) {
             id
-            role {
+            role { id }
+            admin {
               id
+              role { id }
             }
           }
         }
@@ -26,19 +29,30 @@
     limit: 100,
   });
 
-  query(account);
+  let tree: TreeNode[] = [];
+
+  $: {
+    const root: TreeNode[] = [];
+    const childrenMap: Record<string, TreeNode[]> = {};
+
+    for (const { role, admin } of $queryResult.data?.account.asAccessControl.roles ?? []) {
+      console.log(role.id, admin.role.id);
+      const siblings: TreeNode[] = (role.id === admin.role.id ? root : (childrenMap[admin.role.id] ??= []));
+      const children = (childrenMap[role.id] ??= []);
+      const node = { component: Role, props: { r: role.id }, children };
+      siblings.push(node);
+    }
+
+    tree = root;
+  };
+
+  query(queryResult);
 </script>
 
 <section>
 <h1 class="font-bold">Available Roles</h1>
 
-{#if $account.data?.account}
-  <ul>
-  {#each $account.data.account.asAccessControl.roles as { role }}
-    <li><Role r={role.id} {address} /></li>
-  {/each}
-  </ul>
-{/if}
+<TreeList values={tree} />
 
-<LoadMore store={account} />
+<LoadMore store={queryResult} />
 </section>

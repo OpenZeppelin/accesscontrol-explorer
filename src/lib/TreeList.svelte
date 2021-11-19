@@ -1,44 +1,58 @@
-<script lang="ts">
-  type T = $$Generic;
-  type Subtree<T> = (T | [T, Subtree<T>])[];
+<script lang="ts" context="module">
+  import type { SvelteComponent, SvelteComponentTyped } from "svelte";
 
-  export let values: Subtree<T>;
+  export interface TreeNode {
+    component: typeof SvelteComponent;
+    props: Record<string, unknown>;
+    children?: TreeNode[]
+  };
+</script>
+
+<script lang="ts">
+  type T = $$Generic<keyof any>;
+  export let values: TreeNode[];
+  export let subtree = false;
 </script>
 
 <ul>
-  {#each values as value}
+  {#each values as { component, props, children = [] }}
+  <li class:subtree-item={subtree}>
+    <svelte:component this={component} {...props}/>
+    <svelte:self subtree values={children ?? []} />
+  </li>
   {/each}
 </ul>
 
 <style>
-  .role-list-item {
-    --w: 1.5em;
+  .subtree-item {
+    --x: .6em;
+    --y: .7em;
     position: relative;
-    padding-left: var(--w);
+    padding-left: calc(2.5 * var(--x));
     overflow-y: hidden
   }
 
-  .role-list-item::before,
-  .role-list-item::after {
+  .subtree-item::before,
+  .subtree-item::after {
     content: '';
     display: block;
-    width: calc(.4 * var(--w));
+    width: var(--x);
     position: absolute;
-    left: calc(.4 * var(--w));
+    left: var(--x);
   }
 
-  .role-list-item::before {
+  .subtree-item::before {
     border-left: 1px solid currentColor;
     top: 0;
-    bottom: 0;
+    height: 100%;
   }
 
-  .role-list-item:last-child::before {
-    bottom: 50%;
+  .subtree-item:last-child::before {
+    height: var(--y);
   }
 
-  .role-list-item::after {
+  .subtree-item::after {
     border-bottom: 1px solid currentColor;
-    bottom: 50%;
+    top: var(--y);
   }
 </style>
