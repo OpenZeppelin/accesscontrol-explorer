@@ -3,9 +3,10 @@
 
   let query: string = '';
 
-  const handleSubmit = async () => {
-    console.log(query);
+  const handleSubmit = async e => {
+    e.preventDefault();
     await goto(`/address/${query}`);
+    query = '';
   };
 </script>
 
