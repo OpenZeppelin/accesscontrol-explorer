@@ -13,6 +13,9 @@ const config = {
       build: {
         target: 'es2020',
       },
+      ssr: {
+        external: ['ethereum-cryptography'],
+      },
     },
   }
 };
