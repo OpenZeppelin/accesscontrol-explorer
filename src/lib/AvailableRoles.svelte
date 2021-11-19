@@ -36,10 +36,9 @@
     const childrenMap: Record<string, TreeNode[]> = {};
 
     for (const { role, admin } of $queryResult.data?.account.asAccessControl.roles ?? []) {
-      console.log(role.id, admin.role.id);
       const siblings: TreeNode[] = (role.id === admin.role.id ? root : (childrenMap[admin.role.id] ??= []));
       const children = (childrenMap[role.id] ??= []);
-      const node = { component: Role, props: { r: role.id }, children };
+      const node = { component: Role, props: { r: role.id, address }, children };
       siblings.push(node);
     }
 
