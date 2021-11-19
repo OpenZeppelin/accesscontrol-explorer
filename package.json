@@ -11,6 +11,7 @@
     "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
   },
   "devDependencies": {
+    "@ethersproject/abi": "^5.5.0",
     "@fortawesome/fontawesome-common-types": "^0.2.36",
     "@sveltejs/kit": "next",
     "@types/cookie": "^0.4.1",
@@ -20,6 +21,7 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-svelte3": "^3.2.1",
+    "ethereum-cryptography": "^0.2.0",
     "postcss": "^8.3.11",
     "prettier": "^2.4.1",
     "prettier-plugin-svelte": "^2.4.0",
@@ -32,7 +34,6 @@
   },
   "type": "module",
   "dependencies": {
-    "@fontsource/fira-mono": "^4.5.0",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
