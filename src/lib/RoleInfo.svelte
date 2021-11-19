@@ -23,8 +23,6 @@
     limit: 100,
   });
 
-  $: console.log($role);
-
   query(role);
 </script>
 
