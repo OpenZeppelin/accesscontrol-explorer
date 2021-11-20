@@ -7,8 +7,10 @@
   import { paginatedStore } from '$lib/paginated-store';
   import { page } from '$app/stores';
   import RoleInfo from '$lib/RoleInfo.svelte';
+  import Address from '$lib/Address.svelte';
+  import { toChecksumAddress } from '$lib/checksum';
 
-  $: address = $page.params.address;
+  $: address = toChecksumAddress($page.params.address);
   $: roleId = $page.params.role;
 </script>
 
