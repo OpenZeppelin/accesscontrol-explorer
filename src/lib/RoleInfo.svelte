@@ -21,7 +21,7 @@
 </script>
 
 <p>
-  Admin: 
+  <span class="font-bold">Admin:</span>
   {#if $role.data}
     <Role r={$role.data.accessControlRole.admin.role.id} {address} />
   {/if}

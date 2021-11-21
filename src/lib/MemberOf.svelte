@@ -25,7 +25,7 @@
 
     tree = Object.entries(map).map(([a, roles]) => ({
       component: Address,
-      props: { a },
+      props: { a, shorten: true },
       children: roles.map(r => ({
         component: Role,
         props: { r, address: a },
