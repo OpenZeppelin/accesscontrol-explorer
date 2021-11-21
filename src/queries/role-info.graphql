@@ -1,0 +1,13 @@
+query roleInfo($id: ID!, $limit: Int!, $offset: Int) {
+  accessControlRole(id: $id) {
+    id
+    admin {
+      id
+      role { id }
+    }
+    adminOf(first: $limit, skip: $offset) {
+      id
+      role { id }
+    }
+  }
+}

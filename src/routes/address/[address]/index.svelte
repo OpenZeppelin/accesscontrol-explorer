@@ -6,6 +6,7 @@
   import { page } from '$app/stores';
   import AvailableRoles from '$lib/AvailableRoles.svelte';
   import MemberOf from '$lib/MemberOf.svelte';
+  import Module from '$lib/Module.svelte';
   import { toChecksumAddress } from '$lib/checksum';
 
   $: address = toChecksumAddress($page.params.address);
@@ -19,10 +20,10 @@
 <h1 class="font-bold mb-4">{address}</h1>
 
 <div class="grid grid-cols-2 gap-2">
-  <div class="border-2 border-gray-100 bg-gray-50 p-2 rounded">
+  <Module>
     <AvailableRoles address={address} />
-  </div>
-  <div class="border-2 border-gray-100 bg-gray-50 p-2 rounded">
+  </Module>
+  <Module>
     <MemberOf address={address} />
-  </div>
+  </Module>
 </div>

@@ -3,8 +3,6 @@
 </script>
 
 <script lang="ts">
-  import { gql, query } from '@urql/svelte';
-  import { paginatedStore } from '$lib/paginated-store';
   import { page } from '$app/stores';
   import RoleInfo from '$lib/RoleInfo.svelte';
   import Address from '$lib/Address.svelte';

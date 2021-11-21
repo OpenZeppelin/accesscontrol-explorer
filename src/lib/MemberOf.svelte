@@ -1,31 +1,17 @@
 <script lang="ts">
-  import { gql, query } from '@urql/svelte';
-  import { paginatedStore } from '$lib/paginated-store';
+  import { paginatedStore, query } from '$lib/paginated-store';
   import LoadMore from '$lib/LoadMore.svelte';
   import Address from '$lib/Address.svelte';
   import Role from '$lib/Role.svelte';
-  import TreeList, { TreeNode } from './TreeList.svelte';
+  import TreeList, { TreeNode } from '$lib/TreeList.svelte';
+  import { AccountMembershipDocument } from '$lib/subgraph/queries';
 
   export let address: string;
 
-  const queryResult = paginatedStore(gql`
-    query ($address: String, $limit: Int, $offset: Int) {
-      account(id: $address) {
-        id
-        membership(skip: $offset, first: $limit) {
-          id
-          accesscontrolrole {
-            id
-            contract { id }
-            role { id }
-          }
-        }
-      }
-    }
-  `, {
+  $: queryResult = query(paginatedStore(AccountMembershipDocument, {
     address: address.toLowerCase(),
     limit: 100,
-  });
+  }));
 
   let tree: TreeNode[] = [];
 
@@ -46,8 +32,6 @@
       })),
     }));
   };
-
-  query(queryResult);
 </script>
 
 <section>

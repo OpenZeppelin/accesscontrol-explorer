@@ -3,31 +3,10 @@
 
   import '../app.css';
 
-  import { initClient, dedupExchange, fetchExchange } from '@urql/svelte';
-  import { cacheExchange } from '@urql/exchange-graphcache';
-  import { simplePagination } from '@urql/exchange-graphcache/extras';
+  import { initClient } from '@urql/svelte';
+  import { clientOptions } from '$lib/urql-client';
 
-  initClient({
-    url: 'https://api.thegraph.com/subgraphs/name/amxx/access-control',
-    exchanges: [
-      dedupExchange,
-      cacheExchange({
-        resolvers: {
-          AccessControl: {
-            roles: simplePagination({
-              limitArgument: 'first',
-            }),
-          },
-          AccessControlRole: {
-            adminOf: simplePagination({
-              limitArgument: 'first',
-            }),
-          },
-        },
-      }),
-      fetchExchange,
-    ],
-  });
+  initClient(clientOptions);
 </script>
 
 <div class="container mx-auto max-w-screen-md flex flex-col gap-y-6">

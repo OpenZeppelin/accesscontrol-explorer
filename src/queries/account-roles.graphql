@@ -1,0 +1,16 @@
+query accountRoles($address: ID!, $limit: Int!, $offset: Int) {
+  account(id: $address) {
+    id
+    asAccessControl {
+      id
+      roles(first: $limit, skip: $offset) {
+        id
+        role { id }
+        admin {
+          id
+          role { id }
+        }
+      }
+    }
+  }
+}

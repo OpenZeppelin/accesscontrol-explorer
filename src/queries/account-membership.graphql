@@ -1,0 +1,13 @@
+query accountMembership($address: ID!, $limit: Int!, $offset: Int) {
+  account(id: $address) {
+    id
+    membership(first: $limit, skip: $offset) {
+      id
+      accesscontrolrole {
+        id
+        contract { id }
+        role { id }
+      }
+    }
+  }
+}

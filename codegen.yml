@@ -1,0 +1,12 @@
+overwrite: true
+schema: "https://api.thegraph.com/subgraphs/name/amxx/access-control"
+documents: "src/**/*.graphql"
+generates:
+  src/lib/subgraph/queries.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typed-document-node"
+  src/lib/subgraph/schema.json:
+    plugins:
+      - "introspection"

@@ -1,38 +1,37 @@
 <script lang="ts">
-  import { gql, query } from '@urql/svelte';
-  import { paginatedStore } from '$lib/paginated-store';
+  import { paginatedStore, query } from '$lib/paginated-store';
+  import { RoleInfoDocument } from '$lib/subgraph/queries';
   import LoadMore from '$lib/LoadMore.svelte';
+  import Role from '$lib/Role.svelte';
+  import Module from './Module.svelte';
+  import Address from './Address.svelte';
 
   export let address: string;
   export let roleId: string;
 
-  const role = paginatedStore(gql`
-    query ($id: String, $limit: Int, $offset: Int) {
-      accessControlRole(id: $id) {
-        id
-        admin {
-          role { id }
-        }
-        adminOf(first: $limit, skip: $offset) {
-          role { id }
-        }
-      }
-    }
-  `, {
+  $: role = query(paginatedStore(RoleInfoDocument, {
     id: `${address.toLowerCase()}/${roleId}`,
     limit: 100,
-  });
+  }));
 
-  query(role);
 </script>
 
-{#if $role.data?.accessControlRole}
-  Admin: {$role.data.accessControlRole.admin.role.id}
-{/if}
+<p>
+  Admin: 
+  {#if $role.data}
+    <Role r={$role.data.accessControlRole.admin.role.id} {address} />
+  {/if}
+</p>
 
-<h1>Admin of</h1>
+<Module title="Admin of">
+  <ul>
+  {#if $role.data}
+    {#each $role.data?.accessControlRole.adminOf as { role: other }}
+      <li><Role r={other.id} {address} /></li>
+    {/each}
+  {/if}
+  </ul>
+  <LoadMore store={role} />
+</Module>
 
-<h1>Members</h1>
 
-
-<LoadMore store={role} />
