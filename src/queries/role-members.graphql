@@ -1,0 +1,11 @@
+query roleMembers($id: ID!, $limit: Int!, $offset: Int) {
+  accessControlRole(id: $id) {
+    id
+    members(first: $limit, skip: $offset) {
+      id
+      account {
+        id
+      }
+    }
+  }
+}

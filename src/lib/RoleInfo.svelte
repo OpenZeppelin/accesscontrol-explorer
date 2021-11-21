@@ -1,6 +1,6 @@
 <script lang="ts">
   import { paginatedStore, query } from '$lib/paginated-store';
-  import { RoleInfoDocument } from '$lib/subgraph/queries';
+  import { RoleInfoDocument, RoleMembersDocument } from '$lib/subgraph/queries';
   import LoadMore from '$lib/LoadMore.svelte';
   import Role from '$lib/Role.svelte';
   import Module from './Module.svelte';
@@ -14,6 +14,10 @@
     limit: 100,
   }));
 
+  $: members = query(paginatedStore(RoleMembersDocument, {
+    id: `${address.toLowerCase()}/${roleId}`,
+    limit: 100,
+  }));
 </script>
 
 <p>
@@ -35,3 +39,13 @@
 </Module>
 
 
+<Module title="Members">
+  <ul>
+  {#if $members.data}
+    {#each $members.data?.accessControlRole.members as { account: { id: a } }}
+      <li><Address {a} /></li>
+    {/each}
+  {/if}
+  </ul>
+  <LoadMore store={members} />
+</Module>
