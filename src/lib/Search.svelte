@@ -5,7 +5,7 @@
 
   const handleSubmit = async e => {
     e.preventDefault();
-    await goto(`/address/${query}`);
+    await goto(`/contract/${query}`);
     query = '';
   };
 </script>
