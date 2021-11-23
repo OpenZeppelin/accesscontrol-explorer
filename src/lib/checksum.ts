@@ -1,5 +1,5 @@
 import { toHex, hexToBytes } from 'ethereum-cryptography/utils.js';
-import { keccak256 } from 'ethereum-cryptography/keccak';
+import { keccak256 } from 'ethereum-cryptography/keccak.js';
 
 export function toChecksumAddress(address: string): string {
   address = address.replace(/^0x/, '').toLowerCase();

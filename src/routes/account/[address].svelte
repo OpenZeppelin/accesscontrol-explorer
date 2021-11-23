@@ -7,10 +7,7 @@
   import { toChecksumAddress } from '$lib/checksum';
   import MemberOf from '$lib/MemberOf.svelte';
   import Module from '$lib/Module.svelte';
-  import Icon from '$lib/Icon.svelte';
   import AddressHeader from '$lib/AddressHeader.svelte';
-
-  import { faEye } from '@fortawesome/free-regular-svg-icons';
 
   $: address = toChecksumAddress($page.params.address);
 </script>

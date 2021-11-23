@@ -1,6 +1,7 @@
 import path from 'path';
 import micromatch from 'micromatch';
 import preprocess from 'svelte-preprocess';
+import adapter from '@sveltejs/adapter-static';
 import * as cg from '@graphql-codegen/cli';
 
 /** @returns {import('vite').Plugin} */
@@ -38,8 +39,8 @@ const config = {
   preprocess: preprocess(),
 
   kit: {
-    // hydrate the <div id="svelte"> element in src/app.html
     target: '#svelte',
+    adapter: adapter(),
     vite: {
       plugins: [
         codegen('.graphqlrc.yml'),
