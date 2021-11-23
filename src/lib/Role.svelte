@@ -3,17 +3,13 @@
 </script>
 
 <script lang="ts">
-  const roleDictModule = import('./role-dict.json');
+  import roleDict from './role-dict.json';
 
   export let r: string;
   export let address: string;
 
   $: short = r.replace(/^0x(.{4}).*(.{4})$/, '0x$1...$2');
-  $: decoded = short;
-
-  roleDictModule.then(({ default: roleDict }) => {
-    decoded = roleDict[r] ?? short;
-  });
+  $: decoded = roleDict[r] ?? short;
 </script>
 
 <a href="/role/{address}/{r}" class="p-1 -m-1 rounded bg-gray-50 hover:bg-gray-100" title={r}>
