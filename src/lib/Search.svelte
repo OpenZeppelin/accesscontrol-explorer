@@ -11,9 +11,7 @@
 </script>
 
 <section>
-  <div class="flex justify-between">
-    <h1 class="font-bold">Search</h1>
-  </div>
+  <h1 class="font-bold">Search</h1>
 
   <form on:submit={handleSubmit}>
     <input type="search" class="w-full p-2 bg-gray-100" placeholder="Address" bind:value={query}>

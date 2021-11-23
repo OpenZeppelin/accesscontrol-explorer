@@ -4,13 +4,13 @@ import preprocess from 'svelte-preprocess';
 import * as cg from '@graphql-codegen/cli';
 
 /** @returns {import('vite').Plugin} */
-function codegen() {
+function codegen(configFilePath = '.') {
   let codegenContext;
   const generate = () => cg.generate(codegenContext).catch(() => {});
   return {
     name: 'graphql-codegen',
     async config({ root }) {
-      const codegenConfig = await cg.loadCodegenConfig({ configFilePath: root });
+      const codegenConfig = await cg.loadCodegenConfig({ configFilePath: path.join(root, configFilePath) });
       codegenContext = cg.ensureContext(codegenConfig.config);
       codegenContext.updateConfig({ watch: false });
     },
@@ -42,7 +42,7 @@ const config = {
     target: '#svelte',
     vite: {
       plugins: [
-        codegen(),
+        codegen('.graphqlrc.yml'),
       ],
       build: {
         target: 'es2020',

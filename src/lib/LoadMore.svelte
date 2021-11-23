@@ -4,7 +4,7 @@
   export let store: PaginatedStore;
 </script>
 
-{#if $store.fetching}
+{#if $store.fetching || $store.stale}
   Loading...
 {:else if $store.error}
   Error {$store.error.message}

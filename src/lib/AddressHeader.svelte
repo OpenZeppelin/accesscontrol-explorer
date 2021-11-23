@@ -1,0 +1,22 @@
+<script lang="ts">
+  export let address: string;
+  export let view: 'contract' | 'account';
+</script>
+
+<header class="flex gap-x-2 text-lg items-baseline">
+  {#if view === 'contract'}
+  <h1 class="font-bold">Contract</h1>
+  {:else}
+  <a href="/contract/{address}">Contract</a>
+  {/if}
+
+  <span>·</span>
+
+  {#if view === 'account'}
+  <h1 class="font-bold">Account</h1>
+  {:else}
+  <a href="/account/{address}">Account</a>
+  {/if}
+
+  <h2 class="flex-grow text-right text-base text-gray-500 font-mono">{address}</h2>
+</header>

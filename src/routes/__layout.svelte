@@ -12,7 +12,7 @@
 <div class="container mx-auto max-w-screen-md flex flex-col gap-y-6">
   <Header />
 
-  <main>
+  <main class="flex flex-col gap-y-6">
     <slot />
   </main>
 </div>

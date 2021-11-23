@@ -4,9 +4,12 @@
 
 <script lang="ts">
   import { page } from '$app/stores';
-  import RoleInfo from '$lib/RoleInfo.svelte';
+  import RoleMembers from '$lib/RoleMembers.svelte';
   import Address from '$lib/Address.svelte';
   import Role from '$lib/Role.svelte';
+  import Module from '$lib/Module.svelte';
+  import AvailableRoles from '$lib/AvailableRoles.svelte';
+  import AddressHeader from '$lib/AddressHeader.svelte';
   import { toChecksumAddress } from '$lib/checksum';
 
   $: address = toChecksumAddress($page.params.address);
@@ -17,7 +20,13 @@
 <title>Access Control Explorer - Address {address} - Role {roleId}</title>
 </svelte:head>
 
-<div class="flex flex-col gap-y-2">
-  <h1 class="font-bold"><Role r={roleId} {address} /> @ <Address a={address} /></h1>
-  <RoleInfo {address} {roleId} />
+<AddressHeader {address} view="contract" />
+
+<div class="grid grid-cols-2 gap-2">
+  <Module>
+    <AvailableRoles address={address} focus={roleId} />
+  </Module>
 </div>
+
+<RoleMembers {address} {roleId} />
+

@@ -11,10 +11,10 @@ export interface PaginatedStore<D = any, V extends PageVars = PageVars, R = D> e
   loadMore: () => void;
 }
 
-type Query<D, V> = string | TypedDocumentNode<D, V>;
+type QueryDocument<D, V> = string | TypedDocumentNode<D, V>;
 
 export function paginatedStore<D = any, V extends PageVars = PageVars, R = D>(
-  query: Query<D, V>, variables?: V
+  query: QueryDocument<D, V>, variables?: V
 ): PaginatedStore<D, V, R> {
   const store = Object.assign(
     operationStore<D, V, R>(query, { offset: 0, ...variables }),

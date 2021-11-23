@@ -1,6 +1,6 @@
-overwrite: true
 schema: "https://api.thegraph.com/subgraphs/name/amxx/access-control"
 documents: "src/**/*.graphql"
+overwrite: true
 generates:
   src/lib/subgraph/queries.ts:
     plugins:
