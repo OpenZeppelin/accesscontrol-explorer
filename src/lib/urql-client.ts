@@ -22,6 +22,7 @@ export const clientOptions: ClientOptions = {
         },
         Account: {
           membership: pagination(),
+          events: pagination(),
         },
       },
     }),

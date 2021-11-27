@@ -10,5 +10,5 @@
 
 #svelte {
   @apply min-h-screen;
-  @apply pb-20;
+  @apply pb-20 px-5;
 }

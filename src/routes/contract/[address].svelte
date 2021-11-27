@@ -8,6 +8,7 @@
   import AvailableRoles from '$lib/AvailableRoles.svelte';
   import Module from '$lib/Module.svelte';
   import AddressHeader from '$lib/AddressHeader.svelte';
+  import ContractLogs from '$lib/ContractLogs.svelte';
 
   $: address = toChecksumAddress($page.params.address);
 </script>
@@ -21,6 +22,8 @@
 
 <div class="grid grid-cols-2 gap-2">
   <Module>
-    <AvailableRoles address={address} />
+    <AvailableRoles {address} />
   </Module>
 </div>
+
+<ContractLogs {address} />

@@ -1,0 +1,27 @@
+query contractLogs($address: ID!, $limit: Int!, $offset: Int) {
+  account(id: $address) {
+    id
+    events(first: $limit, skip: $offset, orderBy: timestamp, orderDirection: desc) {
+      __typename
+      id
+      timestamp
+      transaction { id } 
+      ... on RoleGranted {
+        account { id }
+        sender { id }
+        role {
+          id
+          role { id }
+        }
+      }
+      ... on RoleRevoked {
+        account { id }
+        sender { id }
+        role {
+          id
+          role { id }
+        }
+      }
+    }
+  }
+}
