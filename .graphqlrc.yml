@@ -7,6 +7,8 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "typed-document-node"
+    config:
+      useTypeImports: true
   src/lib/subgraph/schema.json:
     plugins:
       - "introspection"

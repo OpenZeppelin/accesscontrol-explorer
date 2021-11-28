@@ -14,16 +14,16 @@ export interface PaginatedStore<D = any, V extends PageVars = PageVars, R = D> e
 type QueryDocument<D, V> = string | TypedDocumentNode<D, V>;
 
 export function paginatedStore<D = any, V extends PageVars = PageVars, R = D>(
-  query: QueryDocument<D, V>, variables?: V
+  query: QueryDocument<D, V>, variables: V
 ): PaginatedStore<D, V, R> {
   const store = Object.assign(
     operationStore<D, V, R>(query, { offset: 0, ...variables }),
     {
-      loadMore: () => store.update($store => {
-        $store.variables.offset += $store.variables.limit;
-        $store.reexecute();
-        return $store;
-      }),
+      loadMore: () => {
+        store.variables!.offset ??= 0;
+        store.variables!.offset += store.variables!.limit;
+        store.reexecute();
+      },
     },
   );
 
