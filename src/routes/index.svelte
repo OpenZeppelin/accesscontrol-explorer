@@ -3,7 +3,13 @@
 </script>
 
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import { prefetchRoutes } from '$app/navigation';
   import Address from '$lib/Address.svelte';
+
+  onMount(() => {
+    prefetchRoutes();
+  });
 </script>
 
 <svelte:head>
