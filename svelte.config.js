@@ -40,7 +40,9 @@ const config = {
 
   kit: {
     target: '#svelte',
-    adapter: adapter(),
+    adapter: adapter({
+      fallback: '200.html',
+    }),
     vite: {
       plugins: [
         codegen('.graphqlrc.yml'),
