@@ -1,4 +1,4 @@
-# accesscontrol-explorer
+# Access Control Explorer
 
 :warning: **Work in Progress**
 
