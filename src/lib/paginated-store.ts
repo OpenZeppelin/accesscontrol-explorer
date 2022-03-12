@@ -1,10 +1,11 @@
 import { operationStore, query as queryOperationStore } from '@urql/svelte';
 import type { OperationStore } from '@urql/svelte';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
+import type { Maybe } from './subgraph/queries';
 
 interface PageVars {
   limit: number;
-  offset?: number;
+  offset?: Maybe<number>;
 }
 
 export interface PaginatedStore<D = any, V extends PageVars = PageVars, R = D> extends OperationStore<D, V, R> {

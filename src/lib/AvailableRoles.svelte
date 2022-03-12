@@ -19,7 +19,7 @@
     const root: TreeNode[] = [];
     const childrenMap: Record<string, TreeNode[]> = {};
 
-    for (const { role, admin } of $queryResult.data?.account.asAccessControl?.roles ?? []) {
+    for (const { role, admin } of $queryResult.data?.account?.asAccessControl?.roles ?? []) {
       const siblings: TreeNode[] = (role.id === admin.role.id ? root : (childrenMap[admin.role.id] ??= []));
       const children = (childrenMap[role.id] ??= []);
       const focused = role.id === focus;
@@ -32,7 +32,7 @@
 </script>
 
 <section>
-{#if $queryResult.data?.account.asAccessControl}
+{#if $queryResult.data?.account?.asAccessControl}
   <TreeList values={tree} />
 {:else if $queryResult.data}
   <p>Not an AccessControl contract.</p>

@@ -17,7 +17,7 @@
   }));
 </script>
 
-{#if $queryResult.data?.account.events.length}
+{#if $queryResult.data?.account?.events.length}
 <div>
 <div class="border rounded overflow-x-auto text-sm">
 <table class="table-auto w-full divide-y">

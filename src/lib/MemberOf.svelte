@@ -18,7 +18,7 @@
   $: {
     const map: Record<string, string[]> = {};
 
-    for (const entry of $queryResult.data?.account.membership ?? []) {
+    for (const entry of $queryResult.data?.account?.membership ?? []) {
       const { contract, role } = entry.accesscontrolrole;
       (map[contract.id] ??= []).push(role.id);
     }
