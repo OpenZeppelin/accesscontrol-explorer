@@ -6,8 +6,7 @@
   import Role from "$lib/Role.svelte";
   import HumanTime from "$lib/HumanTime.svelte";
   import Address from '$lib/Address.svelte';
-  import Icon from '$lib/Icon.svelte';
-  import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+  import EtherscanLink from '$lib/EtherscanLink.svelte';
 
   export let address: string;
 
@@ -39,7 +38,7 @@
     <td class="logs-cell"><Address shorten a={log.account.id} /></td>
     <td class="logs-cell"><Address shorten a={log.sender.id} /></td>
     <td class="logs-cell"><HumanTime timestamp={1000 * log.timestamp} /></td>
-    <td class="logs-cell text-sm"><a class="opacity-30 hover:opacity-70" href="https://etherscan.io/tx/{log.transaction.id}"><Icon i={faExternalLinkAlt}/></a></td>
+    <td class="logs-cell"><EtherscanLink page="tx/{log.transaction.id}"/></td>
   </tr>
   {/if}
 {/each}
