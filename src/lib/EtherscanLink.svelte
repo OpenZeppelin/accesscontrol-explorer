@@ -3,6 +3,8 @@
   import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 
   export let page: string;
+
+  $: href = new URL(page, 'https://etherscan.io').href;
 </script>
 
-<a class="text-sm text-gray-300 hover:text-gray-400" href="https://etherscan.io/{page}"><Icon i={faExternalLinkAlt}/></a>
+<a class="text-sm text-gray-300 hover:text-gray-400" {href}><Icon i={faExternalLinkAlt}/></a>
