@@ -19,8 +19,8 @@
 <h1 class="font-bold text-lg mb-2">Members</h1>
 <ul>
 {#if $members.data}
-  {#each $members.data?.accessControlRole.members as { account: { id: a } }}
-    <li><Address {a} /></li>
+  {#each $members.data?.accessControlRole.members as { account: { id: address } }}
+    <li><Address {address} /></li>
   {:else}
     <li>None</li>
   {/each}

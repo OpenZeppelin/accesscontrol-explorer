@@ -1,21 +1,15 @@
-<script context="module" lang="ts">
-  export const prerender = true;
-</script>
-
-<script lang="ts">
+<script context="module">
   import { onMount } from 'svelte';
   import { prefetchRoutes } from '$app/navigation';
-  import Address from '$lib/Address.svelte';
 
   onMount(() => {
     prefetchRoutes();
   });
+
+  export async function load() {
+    return {
+      status: 301,
+      redirect: `/mainnet/`,
+    }
+  }
 </script>
-
-<svelte:head>
-<title>Access Control Explorer</title>
-</svelte:head>
-
-<p>
-Examples: <Address a="0x41545f8b9472D758bB669ed8EaEEEcD7a9C4Ec29" />
-</p>

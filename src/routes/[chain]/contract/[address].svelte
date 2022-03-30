@@ -4,6 +4,7 @@
 
 <script lang="ts">
   import { page } from '$app/stores';
+  import { chain } from '$lib/store';
   import { toChecksumAddress } from '$lib/checksum';
   import AvailableRoles from '$lib/AvailableRoles.svelte';
   import Module from '$lib/Module.svelte';
@@ -15,7 +16,7 @@
 
 <svelte:head>
 <title>Access Control Explorer - Contract {address}</title>
-<link rel="canonical" href="https://{$page.host}/contract/{address}">
+<link rel="canonical" href="https://{$page.host}/{$chain}/contract/{address}">
 </svelte:head>
 
 <AddressHeader {address} view="contract" />

@@ -23,12 +23,12 @@
       (map[contract.id] ??= []).push(role.id);
     }
 
-    tree = Object.entries(map).map(([a, roles]) => ({
+    tree = Object.entries(map).map(([address, roles]) => ({
       component: Address,
-      props: { a, shorten: true },
-      children: roles.map(r => ({
+      props: { address, shorten: true },
+      children: roles.map(roleId => ({
         component: Role,
-        props: { r, address: a },
+        props: { address, roleId },
       })),
     }));
   };
