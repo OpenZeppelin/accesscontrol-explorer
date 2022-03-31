@@ -41,6 +41,15 @@
     <td class="logs-cell"><EtherscanLink page="tx/{log.transaction.id}"/></td>
   </tr>
   {/if}
+  {#if log.__typename === 'OwnershipTransferred' || log.__typename === 'ERC1967AdminChanged'}
+  <tr>
+    <td class="logs-cell">{log.__typename}</td>
+    <td class="logs-cell"></td>
+    <td class="logs-cell"><Address address={log.owner.id} shorten/></td>
+    <td class="logs-cell"></td>
+    <td class="logs-cell"><EtherscanLink page="tx/{log.transaction.id}"/></td>
+  </tr>
+  {/if}
 {/each}
 </tbody>
 </table>

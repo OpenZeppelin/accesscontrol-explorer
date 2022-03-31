@@ -9,7 +9,7 @@
   import Role from '$lib/Role.svelte';
   import Module from '$lib/Module.svelte';
   import AvailableRoles from '$lib/AvailableRoles.svelte';
-  import AddressHeader from '$lib/AddressHeader.svelte';
+  import Tabs from '$lib/Tabs.svelte';
   import { toChecksumAddress } from '$lib/checksum';
 
   $: address = toChecksumAddress($page.params.address);
@@ -20,7 +20,7 @@
 <title>Access Control Explorer - Address {address} - Role {roleId}</title>
 </svelte:head>
 
-<AddressHeader {address} view="contract" />
+<Tabs {address} view="contract" />
 
 <div class="grid grid-cols-2 gap-2">
   <Module>

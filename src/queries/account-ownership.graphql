@@ -1,0 +1,8 @@
+query accountOwnership($address: ID!, $limit: Int!, $offset: Int) {
+  account(id: $address) {
+    id
+    ownerOf(first: $limit, skip: $offset) {
+      id
+    }
+  }
+}

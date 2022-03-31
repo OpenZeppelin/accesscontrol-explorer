@@ -1,0 +1,11 @@
+query accountAdmin($address: ID!, $limit: Int!, $offset: Int) {
+  account(id: $address) {
+    id
+    asOwnable {
+      owner { id }
+    }
+    erc1967Admin {
+      id
+    }
+  }
+}

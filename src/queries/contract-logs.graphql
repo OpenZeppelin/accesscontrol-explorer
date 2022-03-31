@@ -5,7 +5,13 @@ query contractLogs($address: ID!, $limit: Int!, $offset: Int) {
       __typename
       id
       timestamp
-      transaction { id } 
+      transaction { id }
+      ... on OwnershipTransferred {
+        owner { id }
+      }
+      ... on ERC1967AdminChanged {
+        owner: admin { id }
+      }
       ... on RoleGranted {
         account { id }
         sender { id }

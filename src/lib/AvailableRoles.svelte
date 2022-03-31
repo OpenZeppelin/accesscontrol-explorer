@@ -32,11 +32,10 @@
 </script>
 
 <section>
-{#if $queryResult.data?.account?.asAccessControl}
-  <TreeList values={tree} />
-{:else if $queryResult.data}
-  <p>Not an AccessControl contract.</p>
-{/if}
-
-<LoadMore store={queryResult} />
+  {#if $queryResult.data?.account?.asAccessControl}
+    <TreeList values={tree} />
+    <LoadMore store={queryResult} />
+  {:else if $queryResult.data}
+    <p>Not an AccessControl contract.</p>
+  {/if}
 </section>

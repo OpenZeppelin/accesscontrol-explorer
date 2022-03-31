@@ -25,7 +25,7 @@
 
     tree = Object.entries(map).map(([address, roles]) => ({
       component: Address,
-      props: { address, shorten: true },
+      props: { address, tab: 'contract', shorten: true },
       children: roles.map(roleId => ({
         component: Role,
         props: { address, roleId },
@@ -35,9 +35,7 @@
 </script>
 
 <section>
-<h1 class="font-bold">Member of</h1>
-
-<TreeList values={tree} />
-
-<LoadMore store={queryResult} />
+  <h1 class="font-bold">Member of</h1>
+  <TreeList values={tree} />
+  <LoadMore store={queryResult} />
 </section>
