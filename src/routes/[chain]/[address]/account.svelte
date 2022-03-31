@@ -9,6 +9,7 @@
 
   import AddressHeader from '$lib/AddressHeader.svelte';
   import Module from '$lib/Module.svelte';
+  import AdminOf from '$lib/AdminOf.svelte';
   import OwnerOf from '$lib/OwnerOf.svelte';
   import MemberOf from '$lib/MemberOf.svelte';
 
@@ -22,11 +23,14 @@
 
 <AddressHeader {address} view="account" />
 
-<div class="grid grid-cols-2 gap-2">
+<div class="grid grid-cols-3 gap-2">
   <Module>
     <OwnerOf {address} />
   </Module>
   <Module>
     <MemberOf {address} />
+  </Module>
+  <Module>
+    <AdminOf {address} />
   </Module>
 </div>

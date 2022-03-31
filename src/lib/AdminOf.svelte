@@ -3,11 +3,11 @@
   import LoadMore from '$lib/LoadMore.svelte';
   import Address from '$lib/Address.svelte';
   import TreeList, { TreeNode } from '$lib/TreeList.svelte';
-  import { AccountOwnerOfDocument } from '$lib/subgraph/queries';
+  import { AccountAdminOfDocument } from '$lib/subgraph/queries';
 
   export let address: string;
 
-  $: queryResult = query(paginatedStore(AccountOwnerOfDocument, {
+  $: queryResult = query(paginatedStore(AccountAdminOfDocument, {
     address: address.toLowerCase(),
     limit: 100,
   }));
@@ -23,7 +23,7 @@
 </script>
 
 <section>
-  <h1 class="font-bold">Owner of</h1>
+  <h1 class="font-bold">ERC1967Admin of</h1>
   <TreeList values={tree} />
   <LoadMore store={queryResult} />
 </section>
