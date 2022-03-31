@@ -34,9 +34,9 @@
   {#if log.__typename === 'RoleGranted' || log.__typename === 'RoleRevoked'}
   <tr>
     <td class="logs-cell">{log.__typename}</td>
-    <td class="logs-cell"><Role r={log.role.role.id} {address} /></td>
-    <td class="logs-cell"><Address shorten a={log.account.id} /></td>
-    <td class="logs-cell"><Address shorten a={log.sender.id} /></td>
+    <td class="logs-cell"><Role {address} roleId={log.role.role.id} /></td>
+    <td class="logs-cell"><Address address={log.account.id} shorten/></td>
+    <td class="logs-cell"><Address address={log.sender.id} shorten/></td>
     <td class="logs-cell"><HumanTime timestamp={1000 * log.timestamp} /></td>
     <td class="logs-cell"><EtherscanLink page="tx/{log.transaction.id}"/></td>
   </tr>

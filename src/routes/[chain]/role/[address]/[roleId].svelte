@@ -13,7 +13,7 @@
   import { toChecksumAddress } from '$lib/checksum';
 
   $: address = toChecksumAddress($page.params.address);
-  $: roleId = $page.params.role;
+  $: roleId = $page.params.roleId;
 </script>
 
 <svelte:head>
@@ -24,9 +24,8 @@
 
 <div class="grid grid-cols-2 gap-2">
   <Module>
-    <AvailableRoles address={address} focus={roleId} />
+    <AvailableRoles {address} focus={roleId} />
   </Module>
 </div>
 
 <RoleMembers {address} {roleId} />
-

@@ -23,7 +23,7 @@
       const siblings: TreeNode[] = (role.id === admin.role.id ? root : (childrenMap[admin.role.id] ??= []));
       const children = (childrenMap[role.id] ??= []);
       const focused = role.id === focus;
-      const node = { component: RoleTreeNode, props: { r: role.id, address, focused }, children };
+      const node = { component: RoleTreeNode, props: { address, roleId: role.id, focused }, children };
       siblings.push(node);
     }
 

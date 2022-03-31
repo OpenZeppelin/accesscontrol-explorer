@@ -1,11 +1,12 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { chain } from '$lib/store';
 
   let query: string = '';
 
   const handleSubmit = async e => {
     e.preventDefault();
-    await goto(`/contract/${query}`);
+    await goto(`/${$chain}/contract/${query}`);
     query = '';
   };
 </script>
