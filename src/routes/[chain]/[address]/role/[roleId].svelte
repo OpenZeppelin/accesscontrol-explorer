@@ -4,13 +4,13 @@
 
 <script lang="ts">
   import { page } from '$app/stores';
-  import RoleMembers from '$lib/RoleMembers.svelte';
-  import Address from '$lib/Address.svelte';
-  import Role from '$lib/Role.svelte';
+  import { chain } from '$lib/store';
+  import { toChecksumAddress } from '$lib/checksum';
+
+  import AddressHeader from '$lib/AddressHeader.svelte';
   import Module from '$lib/Module.svelte';
   import AvailableRoles from '$lib/AvailableRoles.svelte';
-  import Tabs from '$lib/Tabs.svelte';
-  import { toChecksumAddress } from '$lib/checksum';
+  import RoleMembers from '$lib/RoleMembers.svelte';
 
   $: address = toChecksumAddress($page.params.address);
   $: roleId = $page.params.roleId;
@@ -18,9 +18,10 @@
 
 <svelte:head>
 <title>Access Control Explorer - Address {address} - Role {roleId}</title>
+<link rel="canonical" href="https://{$page.host}/{$chain}/{address}/role/{roleId}">
 </svelte:head>
 
-<Tabs {address} view="contract" />
+<AddressHeader {address} view="contract" />
 
 <div class="grid grid-cols-2 gap-2">
   <Module>
