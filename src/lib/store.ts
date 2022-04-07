@@ -1,5 +1,4 @@
-import type { Chain } from '$lib/chains';
-import getChain from '$lib/chains';
+import { DEFAULT_CHAIN } from '$lib/chains';
 import { writable } from 'svelte/store';
 
-export const chain = writable<Chain>(getChain());
+export const chain = writable(DEFAULT_CHAIN);

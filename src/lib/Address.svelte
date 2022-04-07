@@ -4,7 +4,10 @@
 
 <script lang="ts">
   import { chain } from '$lib/store';
+  import { getChainDesc } from '$lib/chains';
   import { toChecksumAddress } from './checksum';
+
+  export let network: string | undefined;
   export let address: string;
   export let tab: string = '';
   export let shorten: boolean = false;
@@ -13,7 +16,7 @@
   $: short = checksum.replace(/^0x(.{4}).*(.{4})$/, '0x$1...$2');
 </script>
 
-<a href="/{$chain.shortName}:{checksum}/{tab}" class="p-1 -m-1 font-mono rounded bg-gray-50 hover:bg-gray-100" title={checksum}>
+<a href="/{network ?? getChainDesc($chain)}:{checksum}/{tab}" class="p-1 -m-1 font-mono rounded bg-gray-50 hover:bg-gray-100" title={checksum}>
   {#if shorten}
     {short}
   {:else}

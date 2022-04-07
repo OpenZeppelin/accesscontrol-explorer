@@ -3,7 +3,7 @@
   import { chain } from '$lib/store';
   import WithClient from '$lib/WithClient.svelte';
   import Header from '$lib/Header.svelte';
-  import getChain from '$lib/chains';
+  import { getChain } from '$lib/chains';
 
   import '../../app.css';
 

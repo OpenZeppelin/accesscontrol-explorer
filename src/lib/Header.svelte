@@ -3,12 +3,12 @@
   import { page } from '$app/stores';
   import { chain } from '$lib/store';
   import Search from '$lib/Search.svelte';
-  import getChain, { CHAINS } from '$lib/chains';
+  import { CHAINS, getChain, getChainDesc } from '$lib/chains';
 
   const handleChange = async (e: any) => {
     e.preventDefault();
-    chain.set(getChain(e.target.value));
-    await goto($page.path.replace(/\/([a-z]+)(:0x[0-9a-zA-Z]{40})?/, `/${e.target.value}$2`));
+    $chain = getChain(e.target.value);
+    await goto($page.path.replace(/\/((eip155:)?\w+)(:0x[0-9a-zA-Z]{40})?/, `/${getChainDesc($chain)}$3`));
   };
 </script>
 
@@ -19,7 +19,7 @@
 
   <select on:change={handleChange}>
     {#each CHAINS as entry}
-      <option value={entry.shortName} selected={entry.id == $chain.id}>{entry.name || entry.shortName}</option>
+      <option value={entry.name} selected={entry.id == $chain.id}>{entry.name}</option>
     {/each}
   </select>
 

@@ -18,7 +18,7 @@
 
 <svelte:head>
 <title>Access Control Explorer - Contract {address}</title>
-<link rel="canonical" href="https://{$page.host}/{$chain.shortName}:{address}/contract">
+<link rel="canonical" href="https://{$page.host}/eip155:{$chain.id}:{address}/contract">
 </svelte:head>
 
 <AddressHeader {address} view="contract" />

@@ -7,6 +7,7 @@
   import { chain } from '$lib/store';
   import { toChecksumAddress } from '$lib/checksum';
 
+  import Address from '$lib/Address.svelte';
   import AddressHeader from '$lib/AddressHeader.svelte';
   import Module from '$lib/Module.svelte';
   import AdminOf from '$lib/AdminOf.svelte';
@@ -18,7 +19,7 @@
 
 <svelte:head>
 <title>Access Control Explorer - Account {address}</title>
-<link rel="canonical" href="https://{$page.host}/{$chain.shortName}:{address}/account">
+<link rel="canonical" href="https://{$page.host}/eip155:{$chain.id}:{address}/account">
 </svelte:head>
 
 <AddressHeader {address} view="account" />
