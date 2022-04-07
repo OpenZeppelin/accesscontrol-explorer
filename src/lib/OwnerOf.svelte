@@ -2,7 +2,8 @@
   import { paginatedStore, query } from '$lib/paginated-store';
   import LoadMore from '$lib/LoadMore.svelte';
   import Address from '$lib/Address.svelte';
-  import TreeList, { TreeNode } from '$lib/TreeList.svelte';
+  import TreeList from '$lib/TreeList.svelte';
+  import type { TreeNode } from '$lib/TreeList.svelte';
   import { AccountOwnerOfDocument } from '$lib/subgraph/queries';
 
   export let address: string;
