@@ -3,12 +3,12 @@
   import { page } from '$app/stores';
   import { chain } from '$lib/store';
   import Search from '$lib/Search.svelte';
-  import { CHAINS, getChain, getChainDesc } from '$lib/chains';
+  import { CHAINS, getChain } from '$lib/chains';
 
   const handleChange = async (e: any) => {
     e.preventDefault();
     $chain = getChain(e.target.value);
-    await goto($page.path.replace(/\/((eip155:)?\w+)(:0x[0-9a-zA-Z]{40})?/, `/${getChainDesc($chain)}$3`));
+    await goto($page.path.replace(/\/((eip155:)?\w+)(:0x[0-9a-zA-Z]{40})?/, `/${$chain.descr}$3`));
   };
 </script>
 

@@ -4,10 +4,9 @@
 
 <script lang="ts">
   import { chain } from '$lib/store';
-  import { getChainDesc } from '$lib/chains';
   import roleDict from './role-dict.json';
 
-  export let network: string | undefined;
+  export let network: string | undefined = undefined;
   export let address: string;
   export let roleId: string;
 
@@ -15,6 +14,6 @@
   $: decoded = roleDict[roleId] ?? short;
 </script>
 
-<a href="/{network ?? getChainDesc($chain)}:{address}/role={roleId}" class="p-1 -m-1 rounded bg-gray-50 hover:bg-gray-100" title={roleId}>
+<a href="/{network ?? $chain.descr}:{address}/role={roleId}" class="p-1 -m-1 rounded bg-gray-50 hover:bg-gray-100" title={roleId}>
   {decoded}
 </a>
