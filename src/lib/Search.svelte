@@ -6,7 +6,7 @@
 
   const handleSubmit = async e => {
     e.preventDefault();
-    await goto(`/${$chain.shortName}:${query}`);
+    await goto(`/${$chain.descr}:${query}`);
     query = '';
   };
 </script>
