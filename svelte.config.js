@@ -39,7 +39,6 @@ const config = {
   preprocess: preprocess(),
 
   kit: {
-    target: '#svelte',
     adapter: adapter({
       fallback: '200.html',
     }),
