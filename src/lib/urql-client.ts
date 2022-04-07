@@ -24,6 +24,7 @@ export function getClientOptions(chain: string): ClientOptions {
           },
           Account: {
             membership: pagination(),
+            ownerOf: pagination(),
             events: pagination(),
           },
         },

@@ -9,7 +9,7 @@
 
   $: queryResult = query(paginatedStore(AccountOwnerOfDocument, {
     address: address.toLowerCase(),
-    limit: 100,
+    limit: 10,
   }));
 
   let tree: TreeNode[] = [];
