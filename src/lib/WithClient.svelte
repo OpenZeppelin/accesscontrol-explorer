@@ -1,7 +1,8 @@
 <script lang="ts">
+  import type { Chain } from '$lib/chains';
   import WithClientInner from './WithClientInner.svelte';
 
-  export let chain: string;
+  export let chain: Chain;
 </script>
 
 {#key chain}

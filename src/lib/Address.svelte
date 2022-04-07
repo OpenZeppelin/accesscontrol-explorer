@@ -13,7 +13,7 @@
   $: short = checksum.replace(/^0x(.{4}).*(.{4})$/, '0x$1...$2');
 </script>
 
-<a href="/{$chain}/{checksum}/{tab}" class="p-1 -m-1 font-mono rounded bg-gray-50 hover:bg-gray-100" title={checksum}>
+<a href="/{$chain.shortName}:{checksum}/{tab}" class="p-1 -m-1 font-mono rounded bg-gray-50 hover:bg-gray-100" title={checksum}>
   {#if shorten}
     {short}
   {:else}

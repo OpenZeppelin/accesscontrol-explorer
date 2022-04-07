@@ -13,6 +13,6 @@
   $: decoded = roleDict[roleId] ?? short;
 </script>
 
-<a href="/{$chain}/{address}/role/{roleId}" class="p-1 -m-1 rounded bg-gray-50 hover:bg-gray-100" title={roleId}>
+<a href="/{$chain.shortName}:{address}/role={roleId}" class="p-1 -m-1 rounded bg-gray-50 hover:bg-gray-100" title={roleId}>
   {decoded}
 </a>

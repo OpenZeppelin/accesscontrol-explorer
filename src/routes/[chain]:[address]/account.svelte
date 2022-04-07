@@ -18,7 +18,7 @@
 
 <svelte:head>
 <title>Access Control Explorer - Account {address}</title>
-<link rel="canonical" href="https://{$page.host}/{$chain}/{address}/account">
+<link rel="canonical" href="https://{$page.host}/{$chain.shortName}:{address}/account">
 </svelte:head>
 
 <AddressHeader {address} view="account" />
