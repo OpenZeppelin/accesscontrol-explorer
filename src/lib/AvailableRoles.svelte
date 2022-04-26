@@ -2,7 +2,8 @@
   import { paginatedStore, query } from '$lib/paginated-store';
   import LoadMore from '$lib/LoadMore.svelte';
   import RoleTreeNode from '$lib/RoleTreeNode.svelte';
-  import TreeList, { TreeNode } from '$lib/TreeList.svelte';
+  import TreeList from '$lib/TreeList.svelte';
+  import type { TreeNode } from '$lib/TreeList.svelte';
   import { AccountRolesDocument } from  '$lib/subgraph/queries';
 
   export let address: string;
@@ -32,11 +33,10 @@
 </script>
 
 <section>
-{#if $queryResult.data?.account?.asAccessControl}
-  <TreeList values={tree} />
-{:else if $queryResult.data}
-  <p>Not an AccessControl contract.</p>
-{/if}
-
-<LoadMore store={queryResult} />
+  {#if $queryResult.data?.account?.asAccessControl}
+    <TreeList values={tree} />
+    <LoadMore store={queryResult} />
+  {:else if $queryResult.data}
+    <p>Not an AccessControl contract.</p>
+  {/if}
 </section>
