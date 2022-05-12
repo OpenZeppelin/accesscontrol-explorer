@@ -1,9 +1,9 @@
-import { toHex, hexToBytes } from 'ethereum-cryptography/utils.js';
+import { toHex, utf8ToBytes } from 'ethereum-cryptography/utils.js';
 import { keccak256 } from 'ethereum-cryptography/keccak.js';
 
 export function toChecksumAddress(address: string): string {
   address = address.replace(/^0x/, '').toLowerCase();
-  const addressBytes = hexToBytes(address);
+  const addressBytes = utf8ToBytes(address);
   const hash = toHex(keccak256(addressBytes));
 
   let ret = '0x';
