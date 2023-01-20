@@ -86,6 +86,7 @@ const roleNames = [
   'BURNING',
   'BUYBACK_PAUSER',
   'CALLER',
+  'CANCELLER',
   'CAP_CONTROLLER',
   'CAP_EDITOR',
   'CAP_SETTER',
