@@ -30,7 +30,7 @@
     "eslint-plugin-svelte3": "^3.2.1",
     "humanize-duration": "^3.27.0",
     "micromatch": "^4.0.4",
-    "postcss": "^8.3.11",
+    "postcss": "^8.5.26",
     "prettier": "^2.4.1",
     "prettier-plugin-svelte": "^2.4.0",
     "svelte": "^3.34.0",
